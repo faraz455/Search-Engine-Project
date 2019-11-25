@@ -23,10 +23,12 @@ public class Indexer {
 			parsingString = (currentRecord.get(7) + " " + currentRecord.get(1)).toLowerCase();
 			
 			map.put(currentRecord.get(0), Parser.parseWords(parsingString));
-			
-			
-			
-			//System.out.println(map.get(currentRecord.get(0)));
+		}
+	
+		
+		
+		for(Map.Entry<String, String> entry : map.entrySet()) {
+			System.out.println(entry.getKey() + ":" + entry.getValue());
 		}
 		
 		System.out.println("\nSize: " + map.size());
