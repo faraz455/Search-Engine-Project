@@ -9,6 +9,8 @@ public class Indexer {
 		// map key is imdb_id and map value is overview
 		HashMap<String, String> map = new HashMap<>();
 		
+		String parsingString;
+		
 		File csvData = new File("data/movies_metadata.csv");
 		
 		// this parser will go through record-by-record in the csv
@@ -17,8 +19,14 @@ public class Indexer {
 		
 		// this should add all records to the hashmap
 		for (CSVRecord currentRecord : parser) {
-			map.put(currentRecord.get(0), currentRecord.get(1));
-			System.out.println(currentRecord.get(0) + " " + currentRecord.get(1));
+			
+			parsingString = (currentRecord.get(7) + " " + currentRecord.get(1)).toLowerCase();
+			
+			map.put(currentRecord.get(0), Parser.parseWords(parsingString));
+			
+			
+			
+			//System.out.println(map.get(currentRecord.get(0)));
 		}
 		
 		System.out.println("\nSize: " + map.size());
