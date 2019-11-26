@@ -14,7 +14,8 @@ public class Indexer {
 		// string will contain the text to be parsed
 		String parsingString;
 		// gson will be used to convert our ArrayList into a JSON file
-		Gson gson = new Gson();
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
 
 		File csvData = new File(filename);
 		
@@ -50,6 +51,9 @@ public class Indexer {
 		    out.println(json);
 		}
 		
+		// pretty-printing puts new-lines after every word in the lexicon JSON
+		builder.setPrettyPrinting();
+		gson = builder.create();
 		// lexicon ArrayList converted to JSON
 		json = gson.toJson(Parser.lexicon);
 		
