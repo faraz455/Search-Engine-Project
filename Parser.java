@@ -13,7 +13,7 @@ public class Parser {
 		// format is {word1:[nhits, hit1, hit2....hitn], word2:[...], word3:[...],...wordm:[...]}
 		HashMap<String, ArrayList<Integer>> hitList = new HashMap<>();
 		// element at index 0 is number of hits n
-		// elements at indices 1-n are positions of a word
+		// elements at indices (1 to n) are positions of a word
 		ArrayList<Integer> hitInfo;
 
 		// splits string by delimiting with
