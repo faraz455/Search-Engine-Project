@@ -6,6 +6,7 @@ public class Main {
 
 		// generates forward index and lexicon
 		Indexer.genforwardIndex("data/movies_metadata.csv");
+		// generates inverted index
 		Indexer.invertIndex("forward-index.json", "lexicon.json");
 
 	}
