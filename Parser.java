@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 public class Parser {
 
 	// contains every single word used in every movie overview or title
@@ -8,7 +7,7 @@ public class Parser {
 
 	// parses string and returns a hashmap containing all words with their corresponding hits
 	public static HashMap<String, ArrayList<Integer>> parseWords(String parsingString) {
-		
+
 		// if there are m words for each movie and each word has n number of hits:
 		// format is {word1:[nhits, hit1, hit2....hitn], word2:[...], word3:[...],...wordm:[...]}
 		HashMap<String, ArrayList<Integer>> hitList = new HashMap<>();
@@ -16,10 +15,15 @@ public class Parser {
 		// elements at indices 1-n are positions of a word
 		ArrayList<Integer> hitInfo;
 
-		// splits string by delimiting with
-		// "'s " at the end of words, commas, fullstops and non-alphabetical or non-numerical characters
-		String[] arr = parsingString.split("('s )|(, )|(\\.[ ])|(\\W+)");
-		
+		// removes all non-alphanumeric characters at the beginning of the string
+		// so that we don't get an empty sub-string when we split it
+		parsingString = parsingString.replaceAll("^(?U)\\P{Alnum}*", "");
+
+		// splits the string by delimiting with
+		// any combination of non-alphanumeric Unicode characters
+		// 's at the end of a word and any non-alphanumeric Unicode characters that follow it
+		String[] arr = parsingString.split("('s\\s+(?U)\\P{Alnum}*)|((?U)\\P{Alnum}+)");
+
 		// int i will be the position of a word
 		for (int i = 0; i < arr.length; i++) {
 			// if the hitlist already contains word that we found
@@ -35,11 +39,11 @@ public class Parser {
 				hitInfo.add(i);						// add position of word to hitInfo
 				hitList.put(arr[i], hitInfo);		// add new entry to hitList for the new word
 			}
-			
+
 			if (!lexicon.contains(arr[i]))			// in case we find a new unique word
 				lexicon.add(arr[i]);				// add it to our lexicon
 		}
-		
+
 		return hitList;
 	}
 
