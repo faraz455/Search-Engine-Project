@@ -1,0 +1,26 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+
+public class Main {
+	
+	public static void appendtoCSV(String imdb_id,String title,String overview) {
+		try (CSVPrinter printer = new CSVPrinter(new FileWriter("C:\\Users\\Basim Ehsan\\Desktop\\movies_metadata(test).csv",true), CSVFormat.EXCEL)) {
+			 printer.println();
+			printer.printRecord(imdb_id, overview, null, null, "","","",title,"");
+		     printer.println();
+		     
+		  		 } catch (IOException ex) {
+		     ex.printStackTrace();
+		 }
+		 
+	}
+	
+	public static void main(String[] args) {
+		
+		appendtoCSV("tt1234","COOL MOVIE", "COOL OVERVIEW");
+		
+	}
+
+}
