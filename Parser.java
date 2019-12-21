@@ -3,10 +3,10 @@ import java.util.*;
 public class Parser {
 
 	// contains every single word used in every movie overview or title
-	static ArrayList<String> lexicon = new ArrayList<String>();
+	public ArrayList<String> lexicon = new ArrayList<String>();
 
 	// parses string and returns a hashmap containing all words with their corresponding hits
-	public static HashMap<String, ArrayList<Integer>> parseWords(String parsingString) {
+	public HashMap<String, ArrayList<Integer>> parseWords(String parsingString) {
 
 		// if there are m words for each movie and each word has n number of hits:
 		// format is {word1:[nhits, hit1, hit2....hitn], word2:[...], word3:[...],...wordm:[...]}
@@ -40,8 +40,8 @@ public class Parser {
 				hitList.put(arr[i], hitInfo);		// add new entry to hitList for the new word
 			}
 
-			if (!lexicon.contains(arr[i]))			// in case we find a new unique word
-				lexicon.add(arr[i]);				// add it to our lexicon
+			if (!this.lexicon.contains(arr[i]))			// in case we find a new unique word
+				this.lexicon.add(arr[i]);				// add it to our lexicon
 		}
 
 		return hitList;
