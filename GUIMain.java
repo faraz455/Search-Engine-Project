@@ -3,11 +3,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.*;
 
-public class GUIMain {  
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+
+public class GUI {  
 	public static void main(String []args)  {  
 
 		//making JFrame window
@@ -62,11 +66,15 @@ public class GUIMain {
 
 		// Creating button
 		JButton button = new JButton();  
-		button.setText("Search");  
+		button.setText("Search"); 
+		
+		JButton newrec = new JButton();  
+		newrec.setText("Add new Records"); 
 		
 		  
 		// adding search button to center panel of center
 		ccenter.add(button);
+		ccenter.add(newrec);
 
 		//text area for result
         JTextArea textArea = new JTextArea(10, 10);  
@@ -108,6 +116,73 @@ button.addActionListener(new ActionListener(){
 				
 			}  
 			    });
+newrec.addActionListener(new ActionListener(){  
+	
+public void actionPerformed(ActionEvent e) {
+	 JFrame newframe = new JFrame();
+	 newframe.setLayout(new BorderLayout());
+	 JPanel top = new JPanel();
+	 JPanel cen = new JPanel();
+	 JPanel bot = new JPanel();
+	 
+	 newframe.add(top,BorderLayout.NORTH);
+	 newframe.add(cen,BorderLayout.CENTER);
+	 newframe.add(bot,BorderLayout.SOUTH);
+	 
+	 JLabel idlabel=new JLabel("IMDB ID: ");
+	 JTextField idjtf = new JTextField("Enter IMDB ID Here");
+	 top.add(idlabel); top.add(idjtf);
+	
+	 JLabel overviewlabel=new JLabel("Overview: ");
+	 JTextField overviewjtf = new JTextField("Enter Overview Here");
+	 cen.add(overviewlabel); cen.add(overviewjtf);
+	 
+	 JLabel titlelable= new JLabel("Title: "); 
+	 JTextField titlejtf = new JTextField("Enter Title Here");
+	 cen.add(titlelable); cen.add(titlejtf);
+	 
+	 JButton jbsave= new JButton("SAVE");
+	 bot.add(jbsave,BorderLayout.SOUTH);
+	 
+	 /*if(e.getSource().equals(jbsave)){
+		 String imdb_id = idjtf.getText();
+		 String title = titlejtf.getText();
+		 String overview = overviewjtf.getText();
+		 try (CSVPrinter printer = new CSVPrinter(new FileWriter("movies_metadata(test).csv",true), CSVFormat.EXCEL)) {
+			 printer.println();
+			 printer.printRecord(imdb_id, overview, null, null, "","","",title,"");
+		    
+		     
+		  		 } catch (IOException ex) {
+		     ex.printStackTrace();
+		 }
+		}*/
+	 jbsave.addActionListener(new ActionListener(){  
+			
+		 public void actionPerformed(ActionEvent e) {
+			 String imdb_id = idjtf.getText();
+			 String title = titlejtf.getText();
+			 String overview = overviewjtf.getText();
+			 try (CSVPrinter printer = new CSVPrinter(new FileWriter("movies_metadata(test).csv",true), CSVFormat.EXCEL)) {
+				
+				 printer.printRecord(imdb_id, overview, null, null, "","","",title,"");
+			    
+			     
+			  		 } catch (IOException ex) {
+			     ex.printStackTrace();
+			 }
+			 newframe.setVisible(false);
+			 
+		}
+		 });
+	 newframe.setSize(240, 200);  
+	 newframe.setResizable(true);
+	 newframe.setLocationRelativeTo(null);  
+	 newframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
+	 newframe.setVisible(true);  
+}  
+});
+
 
         // adding text area to south of jframe
 		frame.getContentPane().add(scrollableTextArea,BorderLayout.SOUTH); 
