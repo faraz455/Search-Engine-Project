@@ -144,19 +144,6 @@ public void actionPerformed(ActionEvent e) {
 	 JButton jbsave= new JButton("SAVE");
 	 bot.add(jbsave,BorderLayout.SOUTH);
 	 
-	 /*if(e.getSource().equals(jbsave)){
-		 String imdb_id = idjtf.getText();
-		 String title = titlejtf.getText();
-		 String overview = overviewjtf.getText();
-		 try (CSVPrinter printer = new CSVPrinter(new FileWriter("movies_metadata(test).csv",true), CSVFormat.EXCEL)) {
-			 printer.println();
-			 printer.printRecord(imdb_id, overview, null, null, "","","",title,"");
-		    
-		     
-		  		 } catch (IOException ex) {
-		     ex.printStackTrace();
-		 }
-		}*/
 	 jbsave.addActionListener(new ActionListener(){  
 			
 		 public void actionPerformed(ActionEvent e) {
