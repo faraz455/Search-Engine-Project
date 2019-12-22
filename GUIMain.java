@@ -163,7 +163,7 @@ public void actionPerformed(ActionEvent e) {
 			 String imdb_id = idjtf.getText();
 			 String title = titlejtf.getText();
 			 String overview = overviewjtf.getText();
-			 try (CSVPrinter printer = new CSVPrinter(new FileWriter("movies_metadata(test).csv",true), CSVFormat.EXCEL)) {
+			 try (CSVPrinter printer = new CSVPrinter(new FileWriter("movies_metadata.csv",true), CSVFormat.EXCEL)) {
 				
 				 printer.printRecord(imdb_id, overview, null, null, "","","",title,"");
 			    
