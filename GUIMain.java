@@ -11,9 +11,15 @@ import javax.swing.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
-public class GUI {  
-	public static void main(String []args)  {  
+public class GUIMain {  
+	public static void main(String []args) throws IOException {  
 
+		// generates forward index and lexicon
+//		Indexer indexer = new Indexer();
+//		
+//		indexer.genforwardIndex("data/movies_metadata.csv");
+//		indexer.invertIndex("forward-index.json", "lexicon.json");
+		
 		//making JFrame window
 		JFrame frame = new JFrame("Search Engine"); 
 		
@@ -49,7 +55,7 @@ public class GUI {
 		center.add(csouth,BorderLayout.SOUTH);
 
 		// for title
-		JLabel title = new JLabel("  IMDB ID   ");
+		JLabel title = new JLabel("  IMDb   ");
 		title.setFont(new Font("Calbiri", Font.BOLD, 90));
 		title.setOpaque(true);//adding background colour to title
 		title.setBackground(Color.yellow);
@@ -101,8 +107,6 @@ button.addActionListener(new ActionListener(){
 					textArea.append("\n");
 					System.out.println(title);
 				}
-				
-				//textArea.setText(results);
 
 				for (String a : results) {
 					String title = searcher.titles.get(a);
@@ -165,7 +169,7 @@ public void actionPerformed(ActionEvent e) {
 	 newframe.setSize(240, 200);  
 	 newframe.setResizable(true);
 	 newframe.setLocationRelativeTo(null);  
-	 newframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
+	 newframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  
 	 newframe.setVisible(true);  
 }  
 });
