@@ -1,22 +1,12 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.net.*;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.*;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.*;
 
 public class GUIMain {
 
@@ -24,6 +14,7 @@ public class GUIMain {
 	public static String[] results;
 	private static JList list;
 	private static DefaultListModel listModel;
+	private static boolean isResetting = false;
 
 	public static void main(String[] args) throws IOException {
 
@@ -120,20 +111,18 @@ public class GUIMain {
 					searcher = new Searcher("inverted-index.json", "titles.json");
 
 					String query = search.getText();
-					System.out.print("Query: " + query + "\n");
 					results = searcher.executeQuery(query);
 
+					isResetting = true;
+					listModel.removeAllElements();
+					
+					
 					for (String a : results) {
 						String title = searcher.titles.get(a);
 						listModel.addElement(title);
-						System.out.println(title);
 					}
-
-					for (String a : results) {
-						String title = searcher.titles.get(a);
-
-						System.out.println(title);
-					}
+					
+					isResetting = false;
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -214,21 +203,23 @@ public class GUIMain {
 	static class ListSelectionHandler implements ListSelectionListener {
 
 		public void valueChanged(ListSelectionEvent e) {
-			int selectedIndex = e.getLastIndex();
+			
+			if (!isResetting && !e.getValueIsAdjusting()) {
+				int selectedIndex = e.getFirstIndex();
 
-			String url = "https://www.imdb.com/title/" + results[selectedIndex] + "/";
-			URI uri;
-			try {
-				uri = new URI(url);
-				java.awt.Desktop.getDesktop().browse(uri);
-			} catch (URISyntaxException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				String url = "https://www.imdb.com/title/" + results[selectedIndex] + "/";
+				URI uri;
+				try {
+					uri = new URI(url);
+					java.awt.Desktop.getDesktop().browse(uri);
+				} catch (URISyntaxException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
-
 		}
 
 	}
