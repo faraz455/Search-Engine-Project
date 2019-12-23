@@ -1,17 +1,30 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.MouseInputAdapter;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
 public class GUIMain {  
+	
+	public static Searcher searcher;
+	public static String[] results;
+	private static JList list;
+	private static DefaultListModel listModel;
+	
 	public static void main(String []args) throws IOException {  
 
 		// generates forward index and lexicon
@@ -82,29 +95,38 @@ public class GUIMain {
 		ccenter.add(button);
 		ccenter.add(newrec);
 
-		//text area for result
-        JTextArea textArea = new JTextArea(10, 10);  
-        textArea.setFont(new Font("Calbiri", Font.PLAIN, 12));
-        JScrollPane scrollableTextArea = new JScrollPane(textArea); 
+		//list for results
+		listModel = new DefaultListModel();
+		list = new JList(listModel);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		list.setVisibleRowCount(-1);
+		list.setFont(new Font("Calbiri", Font.PLAIN, 12));  
+        
+        JScrollPane scrollableList = new JScrollPane(list); 
   
         //adding scroll to text area
-        scrollableTextArea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
-        scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+        scrollableList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
+        scrollableList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+        scrollableList.setPreferredSize(new Dimension(640, 200));
+        
+        ListSelectionModel listSelectionModel = list.getSelectionModel();
+        listSelectionModel.addListSelectionListener(
+                                new ListSelectionHandler());
 		
 button.addActionListener(new ActionListener(){  
 			
 	public void actionPerformed(ActionEvent e) {
 		try {
-				Searcher searcher = new Searcher("inverted-index.json", "titles.json");
+				searcher = new Searcher("inverted-index.json", "titles.json");
 			
 				String query= search.getText();
 				System.out.print("Query: " + query + "\n");
-				String[] results = searcher.executeQuery(query);
+				results = searcher.executeQuery(query);
 				
 				for (String a : results) {
 					String title = searcher.titles.get(a);
-					textArea.append(title);
-					textArea.append("\n");
+					listModel.addElement(title);
 					System.out.println(title);
 				}
 
@@ -176,7 +198,7 @@ public void actionPerformed(ActionEvent e) {
 
 
         // adding text area to south of jframe
-		frame.getContentPane().add(scrollableTextArea,BorderLayout.SOUTH); 
+		frame.getContentPane().add(scrollableList,BorderLayout.SOUTH); 
 		
 		//Setting the size of JFrame
 		frame.setSize(600, 550);  
@@ -184,5 +206,27 @@ public void actionPerformed(ActionEvent e) {
 		frame.setLocationRelativeTo(null);  
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
 		frame.setVisible(true);  
-	}  
+	}
+	
+	static class ListSelectionHandler implements ListSelectionListener {
+
+		public void valueChanged(ListSelectionEvent e) {
+			int selectedIndex = e.getLastIndex();
+			
+			String url = "https://www.imdb.com/title/" + results[selectedIndex] + "/";
+			URI uri;
+			try {
+				uri = new URI(url);
+				java.awt.Desktop.getDesktop().browse(uri);
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		}
+		
+	}
 }
