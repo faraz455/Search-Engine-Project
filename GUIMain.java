@@ -121,6 +121,8 @@ button.addActionListener(new ActionListener(){
 				
 			}  
 			    });
+		
+//adding action listener to "Add new records" button		
 newrec.addActionListener(new ActionListener(){  
 	
 public void actionPerformed(ActionEvent e) {
