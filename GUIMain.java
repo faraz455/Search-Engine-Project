@@ -90,7 +90,8 @@ public class GUIMain {
         //adding scroll to text area
         scrollableTextArea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
         scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-		
+
+//adding action listener to search button		
 button.addActionListener(new ActionListener(){  
 			
 	public void actionPerformed(ActionEvent e) {
