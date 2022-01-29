@@ -25,6 +25,11 @@ version of the PageRank algorithm from scratch.
 Open your favorite command prompt/terminal and simply enter `mvn package` to build and run the code.  
 If you wish to only compile, you can use `mvn compile`.
 
+## Future Work
+
+- The Achilles' Heel of this project is the 'Add new record' feature. Once a record is added, the entire index needs to be reconstructed. A much more scalable solution was possible but not implemented due to time constraints.
+- The current algorithm prioritizes word position and frequency of overall word occurrence over all other factors, sometimes making it difficult to search by exact movie title names. Future versions could benefit from giving more weightage to the Movie Title.
+
 ## References/Data used
 
 Original Google research paper "The Anatomy of a Large-Scale Hypertextual Web Search Engine" by Sergey Brin and Lawrence Page:  
